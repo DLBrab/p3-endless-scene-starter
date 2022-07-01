@@ -44,10 +44,27 @@ function p3_tileClicked(i, j) {
 }
 
 function p3_drawBefore() {}
-
+//fill(noise(i, j) * 255)
 function p3_drawTile(i, j) {
   noStroke();
-  fill(noise(i, j) * 255)
+  let noi = noise(i, j)
+  if (noi < 0.4) noi = 0.4
+  let n = clicks[[i, j]] | 0;
+  let nIP = clicks[[i + 1, j]] | 0;
+  let nIM = clicks[[i - 1, j]] | 0;
+  let nJP = clicks[[i, j + 1]] | 0;
+  let nJM = clicks[[i, j - 1]] | 0;
+
+  if (nIP % 2 == 1 || nIM % 2 == 1 || nJP % 2 == 1 || nJM % 2 == 1) {
+    fill(255, noi * 255, 0, noi * 180);
+  }
+  else{
+    fill(0, noi * 255, 0)
+  }
+  if (n % 2 == 1 ) {
+    fill(0, noi * 40, noi * 255)
+  }
+  
 
   push();
 
@@ -57,12 +74,6 @@ function p3_drawTile(i, j) {
   vertex(th, tw);
   vertex(th, 0);
   endShape(CLOSE);
-
-  let n = clicks[[i, j]] | 0;
-  if (n % 2 == 1) {
-    fill(255, 255, 0, 180);
-    ellipse(th/2, tw/2, 10, 10);
-  }
 
   pop();
 }
